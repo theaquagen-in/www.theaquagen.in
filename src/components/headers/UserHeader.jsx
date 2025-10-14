@@ -11,14 +11,13 @@ export default function UserHeader() {
                 <Link to="/" className="font-semibold">MyApp</Link>
                 {!user ? (
                     <nav className="flex items-center gap-3">
-                        <Link to="/about" className="hover:underline">About</Link>
-                        <Link to="/marketplace" className="hover:underline">Marketplace</Link>
                         <Link to="/login"><Button>Login</Button></Link>
                         <Link to="/signup"><Button className="bg-white text-black border hover:bg-neutral-50">Signup</Button></Link>
                     </nav>
                     ) : (
                     <nav className="flex items-center gap-3">
-                        {/* Spec: after login it changes to Profile + Logout */}
+                        <Link to="/about" className="hover:underline">About</Link>
+                        <Link to="/marketplace" className="hover:underline">Marketplace</Link>
                         {loc.pathname !== "/profile" && <Link to="/profile" className="hover:underline">Profile</Link>}
                         <Button onClick={logout}>Logout</Button>
                     </nav>
