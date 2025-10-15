@@ -36,8 +36,8 @@ export default function Profile() {
     setErr(""); setMsg(""); setBusy(true);
     try {
       const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-      const origRef = ref(storage, `avatars/${user.uid}/original_avatar.${ext}`);
-      const optRef  = ref(storage, `avatars/${user.uid}/optimized_avatar.jpg`);
+      const origRef = ref(storage, `avatars/${user.uid}/original/avatar.${ext}`);
+      const optRef  = ref(storage, `avatars/${user.uid}/optimized/avatar.jpg`);
 
       // Upload original
       await uploadBytes(origRef, file);
@@ -80,10 +80,10 @@ export default function Profile() {
         try { await deleteObject(ref(storage, path)); } catch {}
       };
       await Promise.all([
-        del(`avatars/${user.uid}/original_avatar.jpg`),
-        del(`avatars/${user.uid}/original_avatar.jpeg`),
-        del(`avatars/${user.uid}/original_avatar.png`),
-        del(`avatars/${user.uid}/optimized_avatar.jpg`),
+        del(`avatars/${user.uid}/original/avatar.jpg`),
+        del(`avatars/${user.uid}/original/avatar.jpeg`),
+        del(`avatars/${user.uid}/original/avatar.png`),
+        del(`avatars/${user.uid}/optimized/avatar.jpg`),
       ]);
 
       await updateDoc(doc(db, "users", user.uid), {
