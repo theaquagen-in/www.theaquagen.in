@@ -12,7 +12,11 @@ import Input from "../../../components/ui/Input";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
+    
     const [err, setErr] = useState("");
+    
+    const [loading, setLoading] = useState(false);
+    
     const nav = useNavigate();
     const loc = useLocation();
     const from = loc.state?.from?.pathname || "/";
@@ -20,11 +24,14 @@ export default function Login() {
     const onSubmit = async (e) => {
         e.preventDefault();
         setErr("");
+        setLoading(true);
         try {
             await signInWithEmailAndPassword(auth, email, pw);
             nav("/", { replace: true }); // Spec: redirect Home after login
         } catch (e) {
             setErr(e.message);
+        } finally {
++           setLoading(false);
         }
     };
 
@@ -41,7 +48,7 @@ export default function Login() {
                     <Input type="password" value={pw} onChange={(e) => setPw(e.target.value)} required />
                 </div>
                 {err && <p className="text-red-600 text-sm">{err}</p>}
-                <Button type="submit" className="w-full">Sign in</Button>
+                <Button type="submit" className="w-full" loading={loading} loadingText="Signing in…">Sign in</Button>
                 <div className="text-sm">
                     <Link to="/forgot-password" className="underline">Forgot password?</Link>
                 </div>

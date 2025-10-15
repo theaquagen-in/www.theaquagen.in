@@ -7,17 +7,23 @@ import Input from "../../../components/ui/Input";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
+  
   const [msg, setMsg] = useState("");
+  
   const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setErr(""); setMsg("");
+    setLoading(true);
     try {
       await sendPasswordResetEmail(auth, email);
       setMsg("Password reset email sent.");
     } catch (e) {
       setErr(e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -31,7 +37,7 @@ export default function ForgotPassword() {
         </div>
         {msg && <p className="text-green-700 text-sm">{msg}</p>}
         {err && <p className="text-red-600 text-sm">{err}</p>}
-        <Button type="submit" className="w-full">Send reset email</Button>
+        <Button type="submit" className="w-full" loading={loading} loadingText="Sending reset email…">Send reset email</Button>
       </form>
     </div>
   );

@@ -12,7 +12,7 @@ export default function UserHeader() {
                 {!user ? (
                     <nav className="flex items-center gap-3">
                         <Link to="/login"><Button>Login</Button></Link>
-                        <Link to="/signup"><Button className="bg-white text-black border hover:bg-neutral-50">Signup</Button></Link>
+                        <Link to="/signup"><Button variant="outline">Signup</Button></Link>
                     </nav>
                     ) : (
                     <nav className="flex items-center gap-3">

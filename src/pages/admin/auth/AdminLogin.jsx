@@ -11,11 +11,14 @@ export default function AdminLogin() {
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
     const [err, setErr] = useState("");
+    const [loading, setLoading] = useState(false);
+    
     const nav = useNavigate();
 
     const onSubmit = async (e) => {
         e.preventDefault();
         setErr("");
+        setLoading(true);
         try {
             const cred = await signInWithEmailAndPassword(auth, email, pw);
             const snap = await getDoc(doc(db, "users", cred.user.uid));
@@ -26,6 +29,8 @@ export default function AdminLogin() {
             nav("/admin/dashboard", { replace: true });
         } catch (e) {
             setErr(e.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -42,7 +47,7 @@ export default function AdminLogin() {
                     <Input type="password" value={pw} onChange={(e) => setPw(e.target.value)} required />
                 </div>
                 {err && <p className="text-red-600 text-sm">{err}</p>}
-                <Button type="submit" className="w-full">Login</Button>
+                <Button type="submit" className="w-full" loading={loading} loadingText="Logging in…">Login</Button>
             </form>
         </div>
     );
